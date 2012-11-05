@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+
+<title></title>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+
+<script>
+	function loadXMLDoc(dname) {
+		if (window.XMLHttpRequest) {
+			xhttp = new XMLHttpRequest();
+		} else {
+			xhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xhttp.open("GET", dname, false);
+		xhttp.send("");
+		return xhttp.responseXML;
+	}
+
+	function displayResult() {
+		xml = loadXMLDoc("totals.xml");
+		xsl = loadXMLDoc("category_denied.xsl");
+		// code for IE
+		if (window.ActiveXObject) {
+			ex = xml.transformNode(xsl);
+			document.getElementById("example").innerHTML = ex;
+		}
+		// code for Mozilla, Firefox, Opera, etc.
+		else if (document.implementation
+				&& document.implementation.createDocument) {
+			xsltProcessor = new XSLTProcessor();
+			xsltProcessor.importStylesheet(xsl);
+			resultDocument = xsltProcessor.transformToFragment(xml, document);
+			document.getElementById("example").appendChild(resultDocument);
+		}
+	}
+</script>
+
+
+<!-- jQuery -->
+<script type="text/javascript" charset="utf8"
+	src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.2.min.js"></script>
+
+<!-- DataTables -->
+<script type="text/javascript" charset="utf8"
+	src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
+	
+	
+<!-- DataTables CSS -->
+<link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css" />
+	
+<link rel="stylesheet" type="text/css"
+	href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css" />	
+	
+<!-- Graph -->
+<script type="text/javascript" charset="utf8"
+	src="js/jquery.sparkline.min.js"></script>
+	
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
+		displayResult();
+		$('#table_categorys').dataTable({
+        "bJQueryUI": true,
+        "sPaginationType": "full_numbers"
+    });
+	
+	$("#pieChart").sparkline([14,51,44], {
+	    type: 'pie',
+	    width: '250',
+	    height: '250'});
+	}
+	
+	);
+</script>
+<style>
+.ui-button
+{
+	padding-right:7px;
+	padding-left:7px;
+}
+</style>
+</head>
+<body>
+	<div id="example"  style="width:800px" />
+	<div id="pieChart" />
+</body>
+</html>
