@@ -6,106 +6,111 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 
 <script>
-function loadXMLDoc(dname) {
-if (window.XMLHttpRequest) {
-xhttp = new XMLHttpRequest();
-} else {
-xhttp = new ActiveXObject("Microsoft.XMLHTTP");
-}
-xhttp.open("GET", dname, false);
-xhttp.send("");
-return xhttp.responseXML;
-}
+	function loadXMLDoc(dname) {
+		if (window.XMLHttpRequest) {
+			xhttp = new XMLHttpRequest();
+		} else {
+			xhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xhttp.open("GET", dname, false);
+		xhttp.send("");
+		return xhttp.responseXML;
+	}
 
-function displayResult() {
-xml = loadXMLDoc("totals.xml");
-xsl = loadXMLDoc("category_denied.xsl");
-// code for IE
-if (window.ActiveXObject) {
-ex = xml.transformNode(xsl);
-document.getElementById("example").innerHTML = ex;
-}
-// code for Mozilla, Firefox, Opera, etc.
-else if (document.implementation
-&& document.implementation.createDocument) {
-xsltProcessor = new XSLTProcessor();
-xsltProcessor.importStylesheet(xsl);
-resultDocument = xsltProcessor.transformToFragment(xml, document);
-document.getElementById("example").appendChild(resultDocument);
-}
-}
+	function displayResult() {
+		xml = loadXMLDoc("minute_201208100000.xml");
+		xsl = loadXMLDoc("category_denied.xsl");
+		// code for IE
+		if (window.ActiveXObject) {
+			ex = xml.transformNode(xsl);
+			document.getElementById("example").innerHTML = ex;
+		}
+		// code for Mozilla, Firefox, Opera, etc.
+		else if (document.implementation
+				&& document.implementation.createDocument) {
+			xsltProcessor = new XSLTProcessor();
+			xsltProcessor.importStylesheet(xsl);
+			resultDocument = xsltProcessor.transformToFragment(xml, document);
+			document.getElementById("example").appendChild(resultDocument);
+		}
+	}
 </script>
 
 
 <!-- jQuery -->
 <script type="text/javascript" charset="utf8"
-src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.2.min.js"></script>
+	src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.2.min.js"></script>
 
 <!-- DataTables -->
 <script type="text/javascript" charset="utf8"
-src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
+	src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
 
 
 <!-- DataTables CSS -->
-<link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css" />
+<link rel="stylesheet" type="text/css"
+	href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css" />
 
 <link rel="stylesheet" type="text/css"
-href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css" />	
+	href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css" />
 
 <!-- Graph -->
-<script type="text/javascript" charset="utf8" src="http://cdn.jsdelivr.net/jqplot/1.0.4/jquery.jqplot.min.js"></script>
-<script type="text/javascript" charset="utf8" src="http://cdn.jsdelivr.net/jqplot/1.0.4/plugins/jqplot.pieRenderer.min.js"></script>
-<script type="text/javascript" charset="utf8" src="http://cdn.jsdelivr.net/jqplot/1.0.4/plugins/jqplot.donutRenderer.min.js"></script>
+<script type="text/javascript" charset="utf8"
+	src="http://cdn.jsdelivr.net/jqplot/1.0.4/jquery.jqplot.min.js"></script>
+<script type="text/javascript" charset="utf8"
+	src="http://cdn.jsdelivr.net/jqplot/1.0.4/plugins/jqplot.pieRenderer.min.js"></script>
+<script type="text/javascript" charset="utf8"
+	src="http://cdn.jsdelivr.net/jqplot/1.0.4/plugins/jqplot.donutRenderer.min.js"></script>
 <link rel="stylesheet" type="text/css"
-href="http://cdn.jsdelivr.net/jqplot/1.0.4/jquery.jqplot.css" />	
+	href="http://cdn.jsdelivr.net/jqplot/1.0.4/jquery.jqplot.css" />
 
 <script type="text/javascript" charset="utf-8">
-$(document).ready(function() {
-displayResult();
-$('#table_categorys').dataTable({
-        "bJQueryUI": true,
-        "sPaginationType": "full_numbers"
-    });
+	$(document).ready(
+			function() {
+				displayResult();
+				$('#table_ppal').dataTable({
+					"bJQueryUI" : true,
+					"sPaginationType" : "full_numbers"
+				});
 
-var data = [
-            ['Heavy Industry', 12],['Retail', 9], ['Light Industry', 14],
-            ['Out of home', 16],['Commuting', 7], ['Orientation', 9]
-          ];
-    var plot1 = jQuery.jqplot ('chart1', [data],
-      {
-        seriesDefaults: {
-          // Make this a pie chart.
-          renderer: jQuery.jqplot.PieRenderer,
-          rendererOptions: {
-        	// Turn off filling of slices.
-              showDataLabels: true, 
-          }
-        },
-        legend: { show:true, location: 'e' }
-      }
-    );
-/* 
-$("#pieChart").sparkline([14,51,44], {
-type: 'pie',
-width: '250',
-height: '250'});
-*/
+				var data = [ [ 'Heavy Industry', 12 ], [ 'Retail', 9 ],
+						[ 'Light Industry', 14 ], [ 'Out of home', 16 ],
+						[ 'Commuting', 7 ], [ 'Orientation', 9 ] ];
+				var plot1 = jQuery.jqplot('chart1', [ data ], {
+					seriesDefaults : {
+						// Make this a pie chart.
+						renderer : jQuery.jqplot.PieRenderer,
+						rendererOptions : {
+							// Turn off filling of slices.
+							showDataLabels : true,
+						}
+					},
+					legend : {
+						show : true,
+						location : 'e'
+					}
+				});
+				/* 
+				 $("#pieChart").sparkline([14,51,44], {
+				 type: 'pie',
+				 width: '250',
+				 height: '250'});
+				 */
 
-});
+			});
 </script>
 <style>
-.ui-button
-{
-padding-right:7px;
-padding-left:7px;
+.ui-button {
+	padding-right: 7px;
+	padding-left: 7px;
 }
 </style>
 </head>
 <body>
-<div id="example" style="width:800px" ></div>
+	<div id="example" style="width: 800px"></div>
 
-<div id="chart1" style="height:300px; width:500px;"></div><div class="code prettyprint">
-<pre class="code prettyprint brush: js"></pre>
-</div>
+	<div id="chart1" style="height: 300px; width: 500px;"></div>
+	<div class="code prettyprint">
+		<pre class="code prettyprint brush: js"></pre>
+	</div>
 </body>
 </html>
