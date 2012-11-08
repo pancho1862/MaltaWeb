@@ -64,18 +64,17 @@
 	href="http://cdn.jsdelivr.net/jqplot/1.0.4/jquery.jqplot.css" />
 
 <script type="text/javascript" charset="utf-8">
+var graphData = [  ];
 	$(document).ready(
 			function() {
+				
 				displayResult();
 				$('#table_ppal').dataTable({
 					"bJQueryUI" : true,
 					"sPaginationType" : "full_numbers"
 				});
 
-				var data = [ [ 'Heavy Industry', 12 ], [ 'Retail', 9 ],
-						[ 'Light Industry', 14 ], [ 'Out of home', 16 ],
-						[ 'Commuting', 7 ], [ 'Orientation', 9 ] ];
-				var plot1 = jQuery.jqplot('chart1', [ data ], {
+				var plot1 = jQuery.jqplot('chart1', [ graphData ], {
 					seriesDefaults : {
 						// Make this a pie chart.
 						renderer : jQuery.jqplot.PieRenderer,
@@ -89,13 +88,6 @@
 						location : 'e'
 					}
 				});
-				/* 
-				 $("#pieChart").sparkline([14,51,44], {
-				 type: 'pie',
-				 width: '250',
-				 height: '250'});
-				 */
-
 			});
 </script>
 <style>
