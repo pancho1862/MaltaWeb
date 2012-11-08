@@ -18,19 +18,28 @@
       </tr>
       </thead>
       <tbody>
-      
+      <xsl:variable name="others">
+		<xsl:value-of select="0"></xsl:value-of>
+	</xsl:variable>
       <xsl:for-each select="root/Categoria_denegadas/Categoria_denegada">
 	<xsl:variable name="porcentaje">
-		<xsl:value-of select="round( . div $total * 10000) div 100"></xsl:value-of>
+		<xsl:value-of select="round( @hits div $total * 10000) div 100"></xsl:value-of>
 	</xsl:variable>
     
       <tr>
         <td><xsl:value-of select="@name"/>
+        <xsl:if test="$porcentaje &gt;= 5">
         <script language="JavaScript" type="text/javascript" >
-          graphData.push(['<xsl:value-of select="@name"/>', <xsl:value-of select="."/>]);
+          graphData.push(['<xsl:value-of select="@name"/>', <xsl:value-of select="@hits"/>]);
         </script>
+        </xsl:if>
+    <xsl:if test="$porcentaje &lt; 5">
+        <script language="JavaScript" type="text/javascript" >
+          others = others + <xsl:value-of select="@hits"/>;
+        </script>
+    </xsl:if>
          </td>
-        <td><xsl:value-of select="."/></td>
+        <td><xsl:value-of select="@hits"/></td>
         <td><xsl:value-of select=" $porcentaje "/></td>
       </tr>
       </xsl:for-each>

@@ -5,38 +5,6 @@
 <title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 
-<script>
-	function loadXMLDoc(dname) {
-		if (window.XMLHttpRequest) {
-			xhttp = new XMLHttpRequest();
-		} else {
-			xhttp = new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		xhttp.open("GET", dname, false);
-		xhttp.send("");
-		return xhttp.responseXML;
-	}
-
-	function displayResult() {
-		xml = loadXMLDoc("minute_201208100000.xml");
-		xsl = loadXMLDoc("category_denied.xsl");
-		// code for IE
-		if (window.ActiveXObject) {
-			ex = xml.transformNode(xsl);
-			document.getElementById("example").innerHTML = ex;
-		}
-		// code for Mozilla, Firefox, Opera, etc.
-		else if (document.implementation
-				&& document.implementation.createDocument) {
-			xsltProcessor = new XSLTProcessor();
-			xsltProcessor.importStylesheet(xsl);
-			resultDocument = xsltProcessor.transformToFragment(xml, document);
-			document.getElementById("example").appendChild(resultDocument);
-		}
-	}
-</script>
-
-
 <!-- jQuery -->
 <script type="text/javascript" charset="utf8"
 	src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.2.min.js"></script>
@@ -64,21 +32,30 @@
 	href="http://cdn.jsdelivr.net/jqplot/1.0.4/jquery.jqplot.css" />
 
 <script type="text/javascript" charset="utf-8">
-var graphData = [  ];
-var others = 0;
 	$(document).ready(
 			function() {
-				
+				/*
 				displayResult();
+				*/
+				
+
 				$('#table_ppal').dataTable({
 					"bJQueryUI" : true,
-					"sPaginationType" : "full_numbers"
+			        "bProcessing": true,
+					"sPaginationType" : "full_numbers",
+					"sAjaxSource": "output/categorias.json",
+					"aoColumns": [
+					              { "mData": "0" },
+					              { "mData": "0.0" },
+					              { "mData": "0.1" }
+					          ]
 				});
-
-				if (others > 0){
-					graphData.push(['Otros', others]);					
-				}
-				var plot1 = jQuery.jqplot('chart1', [ graphData ], {
+				
+				 	
+				var data = [ [ 'Heavy Industry', 12 ], [ 'Retail', 9 ],
+						[ 'Light Industry', 14 ], [ 'Out of home', 16 ],
+						[ 'Commuting', 7 ], [ 'Orientation', 9 ] ];
+				var plot1 = jQuery.jqplot('chart1', [ data ], {
 					seriesDefaults : {
 						// Make this a pie chart.
 						renderer : jQuery.jqplot.PieRenderer,
@@ -92,6 +69,7 @@ var others = 0;
 						location : 'e'
 					}
 				});
+				
 			});
 </script>
 <style>
@@ -102,7 +80,21 @@ var others = 0;
 </style>
 </head>
 <body>
-	<div id="example" style="width: 800px"></div>
+	<div style="width: 800px">
+	
+	<table cellpadding="0" cellspacing="0" border="0" class="display" id="table_ppal">
+	<thead>
+		<tr>
+			<th width="20%">a</th>
+			<th width="25%">b</th>
+			<th width="25%">c</th>
+		</tr>
+	</thead>
+	<tbody>
+		
+	</tbody>
+</table>
+	</div>
 
 	<div id="chart1" style="height: 300px; width: 500px;"></div>
 	<div class="code prettyprint">
