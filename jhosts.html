@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+
+<title></title>
+<meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+
+<!-- jQuery -->
+<script type="text/javascript" charset="utf8"
+	src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.2.min.js"></script>
+
+<!-- DataTables -->
+<script type="text/javascript" charset="utf8"
+	src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
+
+
+<!-- DataTables CSS -->
+<link rel="stylesheet" type="text/css"
+	href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css" />
+
+<link rel="stylesheet" type="text/css"
+	href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css" />
+
+<!-- Graph -->
+<script type="text/javascript" charset="utf8"
+	src="http://cdn.jsdelivr.net/jqplot/1.0.4/jquery.jqplot.min.js"></script>
+<script type="text/javascript" charset="utf8"
+	src="http://cdn.jsdelivr.net/jqplot/1.0.4/plugins/jqplot.pieRenderer.min.js"></script>
+<script type="text/javascript" charset="utf8"
+	src="http://cdn.jsdelivr.net/jqplot/1.0.4/plugins/jqplot.donutRenderer.min.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="http://cdn.jsdelivr.net/jqplot/1.0.4/jquery.jqplot.css" />
+
+<script type="text/javascript" charset="utf-8">
+	$.ajaxSetup({
+		async : false
+	});
+	var url = "output/hosts.json";
+	var total = 0;
+	var otras = 0;
+	var contenido = Object;
+	var itemsGraph = [];
+	$(document).ready(
+			function() {
+				$.getJSON(url, function(data) {
+					contenido = data.aaData;
+					$.each(data.aaData, function(i, item) {
+						total += item.peticiones;
+					});
+					$.each(data.aaData,
+							function(i, item) {
+								item.porcentaje = Math.round(item.peticiones
+										/ total * 10000) / 100;
+								if (item.porcentaje < 5) {
+									otras += item.porcentaje;
+								} else {
+									itemsGraph.push([ item.host,
+											item.peticiones ]);
+								}
+							});
+				});
+				if (otras > 5){
+					itemsGraph.push([ 'Otras', otras ]);
+				}
+				$('#table_ppal').dataTable({
+					"bJQueryUI" : true,
+					"bProcessing" : true,
+					"sPaginationType" : "full_numbers",
+					"aaData" : contenido,
+					"aoColumns" : [ {
+						"mData" : "host"
+					}, {
+						"mData" : "peticiones"
+					}, {
+						"mData" : "porcentaje"
+					}, {
+						"mData" : "accesos"
+					}, {
+						"mData" : "trafico"
+					}, {
+						"mData" : "last_occurrence"
+					} ]
+
+				});
+				var plot1 = jQuery.jqplot('chart1', [ itemsGraph ], {
+					seriesDefaults : {
+						// Make this a pie chart.
+						renderer : jQuery.jqplot.PieRenderer,
+						rendererOptions : {
+							// Turn off filling of slices.
+							showDataLabels : true,
+						}
+					},
+					legend : {
+						show : true,
+						location : 'e'
+					}
+				});
+
+			});
+</script>
+<style>
+.ui-button {
+	padding-right: 7px;
+	padding-left: 7px;
+}
+</style>
+</head>
+<body><div style="width: 800px">
+<h1>Hosts</h1><br />
+</div>
+	<div style="width: 800px">
+
+		<table cellpadding="0" cellspacing="0" border="0" class="display"
+			id="table_ppal">
+			<thead>
+				<tr>
+					<th>Host</th>
+					<th>Peticiones</th>
+					<th>Porcentaje</th>
+					<th>Tr&aacute;fico</th>
+					<th>Accesos</th>
+					<th>&Uacute;ltima ocurrencia</th>
+				</tr>
+			</thead>
+			<tbody>
+
+			</tbody>
+		</table>
+	</div>
+<br />
+<h2>Porcentaje de peticiones</h2>
+	<div id="chart1" style="height: 300px; width: 500px;"></div>
+	<div class="code prettyprint">
+		<pre class="code prettyprint brush: js"></pre>
+	</div>
+</body>
+</html>

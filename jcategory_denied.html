@@ -3,6 +3,7 @@
 <head>
 
 <title></title>
+<meta http-equiv="cache-control" content="no-cache" />
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 
 <!-- jQuery -->
@@ -32,30 +33,51 @@
 	href="http://cdn.jsdelivr.net/jqplot/1.0.4/jquery.jqplot.css" />
 
 <script type="text/javascript" charset="utf-8">
+	$.ajaxSetup({
+		async : false
+	});
+	var url = "output/categorias.json";
+	var total = 0;
+	var otras = 0;
+	var contenido = Object;
+	var itemsGraph = [];
 	$(document).ready(
 			function() {
-				/*
-				displayResult();
-				*/
-				
-
+				$.getJSON(url, function(data) {
+					contenido = data.aaData;
+					$.each(data.aaData, function(i, item) {
+						total += item.ocurrencias;
+					});
+					$.each(data.aaData,
+							function(i, item) {
+								item.porcentaje = Math.round(item.ocurrencias
+										/ total * 10000) / 100;
+								if (item.porcentaje < 5) {
+									otras += item.porcentaje;
+								} else {
+									itemsGraph.push([ item.categoria,
+											item.ocurrencias ]);
+								}
+							});
+				});
+				if (otras > 5){
+					itemsGraph.push([ 'Otras', otras ]);
+				}
 				$('#table_ppal').dataTable({
 					"bJQueryUI" : true,
-			        "bProcessing": true,
+					"bProcessing" : true,
 					"sPaginationType" : "full_numbers",
-					"sAjaxSource": "output/categorias.json",
-					"aoColumns": [
-					              { "mData": "0" },
-					              { "mData": "0.0" },
-					              { "mData": "0.1" }
-					          ]
+					"aaData" : contenido,
+					"aoColumns" : [ {
+						"mData" : "categoria"
+					}, {
+						"mData" : "ocurrencias"
+					}, {
+						"mData" : "porcentaje"
+					} ]
+
 				});
-				
-				 	
-				var data = [ [ 'Heavy Industry', 12 ], [ 'Retail', 9 ],
-						[ 'Light Industry', 14 ], [ 'Out of home', 16 ],
-						[ 'Commuting', 7 ], [ 'Orientation', 9 ] ];
-				var plot1 = jQuery.jqplot('chart1', [ data ], {
+				var plot1 = jQuery.jqplot('chart1', [ itemsGraph ], {
 					seriesDefaults : {
 						// Make this a pie chart.
 						renderer : jQuery.jqplot.PieRenderer,
@@ -69,7 +91,7 @@
 						location : 'e'
 					}
 				});
-				
+
 			});
 </script>
 <style>
@@ -81,19 +103,20 @@
 </head>
 <body>
 	<div style="width: 800px">
-	
-	<table cellpadding="0" cellspacing="0" border="0" class="display" id="table_ppal">
-	<thead>
-		<tr>
-			<th width="20%">a</th>
-			<th width="25%">b</th>
-			<th width="25%">c</th>
-		</tr>
-	</thead>
-	<tbody>
-		
-	</tbody>
-</table>
+
+		<table cellpadding="0" cellspacing="0" border="0" class="display"
+			id="table_ppal">
+			<thead>
+				<tr>
+					<th>Categor&iacute;a</th>
+					<th>Ocurrencias</th>
+					<th>Porcentaje</th>
+				</tr>
+			</thead>
+			<tbody>
+
+			</tbody>
+		</table>
 	</div>
 
 	<div id="chart1" style="height: 300px; width: 500px;"></div>
