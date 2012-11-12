@@ -2,7 +2,7 @@
 <html>
 <head>
 
-<title></title>
+<title>Categor&iacute;a, usuario p&aacute;ginas</title>
 <meta http-equiv="cache-control" content="no-cache" />
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 
@@ -36,33 +36,15 @@
 	$.ajaxSetup({
 		async : false
 	});
-	var url = "output/status.json";
+	var url = "output/categoria_usuario_pagina.json";
 	var total = 0;
-	var otras = 0;
 	var contenido = Object;
 	var itemsGraph = [];
 	$(document).ready(
 			function() {
 				$.getJSON(url, function(data) {
 					contenido = data.aaData;
-					/*$.each(data.aaData, function(i, item) {
-						total += item.ocurrencias;
-					});
-					$.each(data.aaData,
-							function(i, item) {
-								item.porcentaje = Math.round(item.ocurrencias
-										/ total * 10000) / 100;
-								if (item.porcentaje < 5) {
-									otras += item.ocurrencias;
-								} else {
-									itemsGraph.push([ item.host,
-											item.ocurrencias ]);
-								}
-							});*/
 				});
-				if (otras > 5){
-					itemsGraph.push([ 'Otras', otras ]);
-				}
 				$('#table_ppal').dataTable({
 					"bJQueryUI" : true,
 					"bProcessing" : true,
@@ -71,29 +53,14 @@
 					"aoColumns" : [ {
 						"mData" : "categoria"
 					}, {
-						"mData" : "status"
+						"mData" : "usuario"
+					}, {
+						"mData" : "pagina"
 					}, {
 						"mData" : "ocurrencias"
-					}, {
-						"mData" : "descripcion"
 					} ]
 
-				});/*
-				var plot1 = jQuery.jqplot('chart1', [ itemsGraph ], {
-					seriesDefaults : {
-						// Make this a pie chart.
-						renderer : jQuery.jqplot.PieRenderer,
-						rendererOptions : {
-							// Turn off filling of slices.
-							showDataLabels : true,
-						}
-					},
-					legend : {
-						show : true,
-						location : 'e'
-					}
-				});*/
-
+				});
 			});
 </script>
 <style>
@@ -104,7 +71,7 @@
 </style>
 </head>
 <body><div style="width: 800px">
-<h1>C&oacute;digos de estado</h1><br />
+<h1>Categor&iacute;a, usuario p&aacute;ginas</h1><br />
 </div>
 	<div style="width: 800px">
 
@@ -113,9 +80,9 @@
 			<thead>
 				<tr>
 					<th>Categor&iacute;a</th>
-					<th>Estado</th>
+					<th>Usuario</th>
+					<th>P&aacute;ginas</th>
 					<th>Ocurrencias</th>
-					<th>Descrici&oacute;n</th>
 				</tr>
 			</thead>
 			<tbody>
