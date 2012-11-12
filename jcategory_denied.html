@@ -53,7 +53,7 @@
 								item.porcentaje = Math.round(item.ocurrencias
 										/ total * 10000) / 100;
 								if (item.porcentaje < 5) {
-									otras += item.porcentaje;
+									otras += item.ocurrencias;
 								} else {
 									itemsGraph.push([ item.categoria,
 											item.ocurrencias ]);

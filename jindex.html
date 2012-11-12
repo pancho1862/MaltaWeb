@@ -1,17 +1,100 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Consultas disponibles</title>
+
+<title>P&aacute;ginas</title>
+<meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+
+<!-- jQuery -->
+<script type="text/javascript" charset="utf8"
+	src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.2.min.js"></script>
+
+<!-- DataTables -->
+<script type="text/javascript" charset="utf8"
+	src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
+
+
+<!-- DataTables CSS -->
+<link rel="stylesheet" type="text/css"
+	href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css" />
+
+<link rel="stylesheet" type="text/css"
+	href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css" />
+
+<!-- Graph -->
+<script type="text/javascript" charset="utf8"
+	src="http://cdn.jsdelivr.net/jqplot/1.0.4/jquery.jqplot.min.js"></script>
+<script type="text/javascript" charset="utf8"
+	src="http://cdn.jsdelivr.net/jqplot/1.0.4/plugins/jqplot.pieRenderer.min.js"></script>
+<script type="text/javascript" charset="utf8"
+	src="http://cdn.jsdelivr.net/jqplot/1.0.4/plugins/jqplot.donutRenderer.min.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="http://cdn.jsdelivr.net/jqplot/1.0.4/jquery.jqplot.css" />
+
+<script type="text/javascript" charset="utf-8">
+	$.ajaxSetup({
+		async : false
+	});
+	var url = "output/global.json";
+	var total = 0;
+	var contenido = Object;
+	var itemsGraph = [];
+	$(document).ready(
+			function() {
+				$.getJSON(url, function(data) {
+					contenido = data.aaData;
+				});
+				$('#table_ppal').dataTable({
+					"bJQueryUI" : true,
+					"bProcessing" : true,
+					"sPaginationType" : "full_numbers",
+					"aaData" : contenido,
+					"aoColumns" : [ {
+						"mData" : "trafico"
+					}, {
+						"mData" : "accesos"
+					}, {
+						"mData" : "peticiones"
+					} ]
+
+				});
+			});
+</script>
+<style>
+.ui-button {
+	padding-right: 7px;
+	padding-left: 7px;
+}
+</style>
 </head>
-<body>
+<body><div style="width: 800px">
+<h1>Principal</h1><br />
 <p>
 <a href="jstatus.html">C&oacute;digos de estado</a><br />
 <a href="jhosts.html">Hosts</a><br />
 <a href="jcategory_denied.html">Categor&iacute;as denegadas</a><br />
 <a href="jpages.html">P&aacute;ginas</a><br />
 <a href="jcategory_user_page.html">Categor&iacute;a, usuario p&aacute;ginas</a><br />
-
 </p>
+
+</div>
+	<div style="width: 800px">
+
+		<table cellpadding="0" cellspacing="0" border="0" class="display"
+			id="table_ppal">
+			<thead>
+				<tr>
+					<th>Tr&aacute;fico</th>
+					<th>Accesos</th>
+					<th>Peticiones</th>
+				</tr>
+			</thead>
+			<tbody>
+
+			</tbody>
+		</table>
+	</div>
+
 </body>
 </html>
