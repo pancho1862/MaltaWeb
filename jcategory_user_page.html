@@ -92,14 +92,15 @@
 		    return asResultData;
 		}}(jQuery));
 	
-	function fnCreateSelect( aData )
+	function fnCreateSelect( aData, name )
 	{
-	    var r='<select><option value=""></option>', i, iLen=aData.length;
+	    var r='<select id="sel_' + name + '"><option value=""></option>', i, iLen=aData.length;
 	    for ( i=0 ; i<iLen ; i++ )
 	    {
 	        r += '<option value="'+aData[i]+'">'+aData[i]+'</option>';
 	    }
-	    return r+'</select>';
+	    r+='</select>';
+	    return r;
 	}
 	 
 	
@@ -109,6 +110,15 @@
 	var contenido = Object;
 	var itemsGraph = [];
 	
+	function NASort(a, b) {    
+	    if (a.innerHTML == '') {
+	        return -1;   
+	    }
+	    else if (b.innerHTML == '') {
+	        return 1;   
+	    }       
+	    return (a.innerHTML > b.innerHTML) ? 1 : -1;
+	};
 	
 	$(document).ready(
 			function() {
@@ -148,10 +158,16 @@
 			     
 			    /* Add a select menu for each TH element in the table footer */
 			    $("tfoot th").each( function ( i ) {
-			        this.innerHTML = fnCreateSelect( oTable.fnGetColumnData(this.innerHTML) );
+			    	var name = this.innerHTML;
+			        this.innerHTML = fnCreateSelect( oTable.fnGetColumnData(this.innerHTML), name );
+
+				    
 			        $('select', this).change( function () {
 			            oTable.fnFilter( $(this).val(), i );
 			        } );
+			        
+				    $('select option', this).sort(NASort).appendTo($('select', this));
+				    $('select', this).val('');
 			    } );
 			    
 			    
