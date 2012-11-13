@@ -2,7 +2,7 @@
 <html>
 <head>
 
-<title>Categor&iacute;as denegadas</title>
+<title>Frases m&aacute;s buscadas</title>
 <meta http-equiv="cache-control" content="no-cache" />
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 
@@ -36,7 +36,7 @@
 	$.ajaxSetup({
 		async : false
 	});
-	var url = "output/categorias.json";
+	var url = "output/searchs.json";
 	var total = 0;
 	var otras = 0;
 	var contenido = Object;
@@ -69,7 +69,7 @@
 					"sPaginationType" : "full_numbers",
 					"aaData" : contenido,
 					"aoColumns" : [ {
-						"mData" : "categoria"
+						"mData" : "query"
 					}, {
 						"mData" : "ocurrencias"
 					}, {
@@ -102,9 +102,10 @@
 </style>
 </head>
 <body>
-	<div style="width: 800px">
-<h1>Categor&iacute;as denegadas</h1><br />
 
+
+	<div style="width: 800px">
+<h1>Frases m&aacute;s buscadas</h1><br />
 		<table cellpadding="0" cellspacing="0" border="0" class="display"
 			id="table_ppal">
 			<thead>
