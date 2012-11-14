@@ -73,3 +73,21 @@ function fnCreateSelect(aData, name) {
 	r += '</select>';
 	return r;
 }
+
+function addTFoot(oTable){
+/* Add a select menu for each TH element in the table footer */
+	$("tfoot th").each(
+		function(i) {
+			if (this.innerHTML != ''){
+				var name = this.innerHTML;
+				this.innerHTML = fnCreateSelect(oTable
+						.fnGetColumnData(this.innerHTML), name);
+				$('select', this).change(function() {
+					oTable.fnFilter($(this).val(), i);
+				});
+				$('select option', this).sort(NASort).appendTo(
+						$('select', this));
+				$('select', this).val('');
+			}
+		});
+}

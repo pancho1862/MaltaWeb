@@ -79,19 +79,7 @@
 					}
 				});
 
-				/* Add a select menu for each TH element in the table footer */
-				$("tfoot th").each(
-						function(i) {
-							var name = this.innerHTML;
-							this.innerHTML = fnCreateSelect(oTable
-									.fnGetColumnData(this.innerHTML), name);
-							$('select', this).change(function() {
-								oTable.fnFilter($(this).val(), i);
-							});
-							$('select option', this).sort(NASort).appendTo(
-									$('select', this));
-							$('select', this).val('');
-						});
+				addTFoot(oTable);
 			});
 </script>
 <style>
@@ -126,7 +114,7 @@
 					<th>categoria</th>
 					<th>usuario</th>
 					<th>pagina</th>
-					<th>ocurrencias</th>
+					<th></th>
 				</tr>
 			</tfoot>
 		</table>
