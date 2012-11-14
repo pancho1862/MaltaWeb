@@ -2,7 +2,7 @@
 <html>
 <head>
 
-<title>Principal</title>
+<title>P&aacute;ginas</title>
 <meta http-equiv="cache-control" content="no-cache" />
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 
@@ -36,7 +36,7 @@
 	$.ajaxSetup({
 		async : false
 	});
-	var url = "output/global.json";
+	var url = "output/referred.json";
 	var total = 0;
 	var contenido = Object;
 	var itemsGraph = [];
@@ -51,9 +51,11 @@
 					"sPaginationType" : "full_numbers",
 					"aaData" : contenido,
 					"aoColumns" : [ {
-						"mData" : "trafico"
-					},  {
-						"mData" : "peticiones"
+						"mData" : "pagina"
+					}, {
+						"mData" : "destino"
+					}, {
+						"mData" : "ocurrencias"
 					} ]
 
 				});
@@ -66,18 +68,8 @@
 }
 </style>
 </head>
-<body><div style="width: 800px">
-<h1>Principal</h1>
-<p>
-<a href="jcategory_denied.html">Categor&iacute;as denegadas</a><br />
-<a href="jcategory_user_page.html">Categor&iacute;a, usuario p&aacute;ginas</a><br />
-<a href="jstatus.html">C&oacute;digos de estado</a><br />
-<a href="jsearchs.html">Frases m&aacute;s buscadas</a><br />
-<a href="jhosts.html">Hosts</a><br />
-<a href="jpages.html">P&aacute;ginas</a><br />
-<a href="jpage_user.html">P&aacute;ginas por usuario</a><br />
-<a href="jreferrer.html">Referrer</a><br />
-<a href="juser_trafic.html">Tr&aacute;fico por usuario</a><br />
+<body><div style="width: 800px"><a href="jindex.html">Volver</a>
+<h1>Referrer</h1><br />
 </div>
 	<div style="width: 800px">
 
@@ -85,8 +77,9 @@
 			id="table_ppal">
 			<thead>
 				<tr>
-					<th>Tr&aacute;fico</th>
-					<th>Peticiones</th>
+					<th>P&aacute;gina</th>
+					<th>Destino</th>
+					<th>Ocurrencias</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -94,6 +87,5 @@
 			</tbody>
 		</table>
 	</div>
-
 </body>
 </html>
