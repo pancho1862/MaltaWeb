@@ -43,6 +43,14 @@
 	var itemsGraph = [];
 	$(document).ready(
 			function() {
+
+				$.getJSON('output/global.json', function(data) {
+					trafico = data.aaData[0].trafico;
+				});
+				$.getJSON('output/global.json', function(data) {
+					peticiones = data.aaData[0].peticiones;
+				});
+				
 				$.getJSON(url, function(data) {
 					contenido = data.aaData;
 					$.each(data.aaData, function(i, item) {
