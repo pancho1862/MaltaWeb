@@ -31,6 +31,7 @@
 	src="http://cdn.jsdelivr.net/jqplot/1.0.4/plugins/jqplot.donutRenderer.min.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="http://cdn.jsdelivr.net/jqplot/1.0.4/jquery.jqplot.css" />
+<script type="text/javascript" charset="utf8" src="js/gral.js"></script>
 
 <script type="text/javascript" charset="utf-8">
 	$.ajaxSetup({
@@ -45,25 +46,11 @@
 			function() {
 				$.getJSON(url, function(data) {
 					contenido = data.aaData;
-					/*$.each(data.aaData, function(i, item) {
-						total += item.ocurrencias;
-					});
-					$.each(data.aaData,
-							function(i, item) {
-								item.porcentaje = Math.round(item.ocurrencias
-										/ total * 10000) / 100;
-								if (item.porcentaje < 5) {
-									otras += item.ocurrencias;
-								} else {
-									itemsGraph.push([ item.host,
-											item.ocurrencias ]);
-								}
-							});*/
 				});
 				if (otras > 5){
 					itemsGraph.push([ 'Otras', otras ]);
 				}
-				$('#table_ppal').dataTable({
+				var oTable = $('#table_ppal').dataTable({
 					"bJQueryUI" : true,
 					"bProcessing" : true,
 					"sPaginationType" : "full_numbers",
@@ -76,9 +63,13 @@
 						"mData" : "ocurrencias"
 					}, {
 						"mData" : "descripcion"
-					} ]
+					} ],
+					"oLanguage" : {
+						"sSearch" : "Search all columns:"
+					}
 
 				});
+				addTFoot(oTable);
 			});
 </script>
 <style>
@@ -106,6 +97,14 @@
 			<tbody>
 
 			</tbody>
+			<tfoot>
+				<tr>
+					<th>categoria</th>
+					<th></th>
+					<th></th>
+					<th></th>
+				</tr>
+			</tfoot>
 		</table>
 	</div>
 </body>
