@@ -34,7 +34,8 @@
 
 <script type="text/javascript" charset="utf-8">
 	$.ajaxSetup({
-		async : false
+		async : false,
+		cache: false
 	});
 	var url = "output/paginas.json";
 	var total = 0;
@@ -51,15 +52,15 @@
 					"sPaginationType" : "full_numbers",
 					"aaData" : contenido,
 					"aoColumns" : [ {
-						"mData" : "pagina"
-					}, {
 						"mData" : "destino"
 					}, {
 						"mData" : "ocurrencias"
 					} ],
-					"aaSorting": [[ 2, "desc" ]]
+					"aaSorting": [[ 1, "desc" ]]
 
 				});
+				$("ul.sf-menu").superfish(); 
+				$("#menu").load("menu.html");
 			});
 </script>
 <style>
@@ -68,8 +69,15 @@
 	padding-left: 7px;
 }
 </style>
+<!-- Menu -->
+<link rel="stylesheet" media="screen" href="js/superfish-1.4.8/css/superfish.css" /> 
+<script src="js/superfish-1.4.8/js/hoverIntent.js"></script> 
+<script src="js/superfish-1.4.8/js/superfish.js"></script> 
+<link rel="stylesheet" type="text/css"
+	href="css/styles.css" />
 </head>
-<body><div style="width: 800px"><a href="jindex.html">Volver</a>
+<body>
+<div id="menu"></div>
 <h1>P&aacute;ginas</h1><br />
 </div>
 	<div style="width: 800px">
@@ -78,7 +86,6 @@
 			id="table_ppal">
 			<thead>
 				<tr>
-					<th>P&aacute;gina</th>
 					<th>Destino</th>
 					<th>Ocurrencias</th>
 				</tr>

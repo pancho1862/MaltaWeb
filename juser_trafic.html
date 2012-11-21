@@ -34,7 +34,8 @@
 
 <script type="text/javascript" charset="utf-8">
 	$.ajaxSetup({
-		async : false
+		async : false,
+		cache: false
 	});
 	var url = "output/usuarios_trafico.json";
 	var total = 0;
@@ -42,10 +43,10 @@
 	var itemsGraph = [];
 	$(document).ready(
 			function() {
+				$("ul.sf-menu").superfish(); 
+				$("#menu").load("menu.html");
 				$.getJSON('output/global.json', function(data) {
 					trafico = data.aaData[0].trafico;
-				});
-				$.getJSON('output/global.json', function(data) {
 					peticiones = data.aaData[0].peticiones;
 				});
 				$.getJSON(url, function(data) {
@@ -74,9 +75,15 @@
 	padding-left: 7px;
 }
 </style>
+<!-- Menu -->
+<link rel="stylesheet" media="screen" href="js/superfish-1.4.8/css/superfish.css" /> 
+<script src="js/superfish-1.4.8/js/hoverIntent.js"></script> 
+<script src="js/superfish-1.4.8/js/superfish.js"></script> 
+<link rel="stylesheet" type="text/css"
+	href="css/styles.css" />
 </head>
 <body>
-<a href="jindex.html">Volver</a>
+<div id="menu"></div>
 <div style="width: 800px">
 <h1>Tr&aacute;fico por usuario</h1><br />
 </div>

@@ -1,0 +1,9 @@
+@CHARSET "UTF-8";
+body{
+  background-color: #d0e3f1;
+  font-family: Arial,sans-serif;
+  font-size: small;
+}
+h1 {
+	color: #1111ff;
+}

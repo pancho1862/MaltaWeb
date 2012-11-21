@@ -31,10 +31,13 @@
 	src="http://cdn.jsdelivr.net/jqplot/1.0.4/plugins/jqplot.donutRenderer.min.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="http://cdn.jsdelivr.net/jqplot/1.0.4/jquery.jqplot.css" />
+<link rel="stylesheet" type="text/css"
+	href="css/styles.css" />
 
 <script type="text/javascript" charset="utf-8">
 	$.ajaxSetup({
-		async : false
+		async : false,
+		cache: false
 	});
 	var url = "output/global.json";
 	var total = 0;
@@ -55,8 +58,9 @@
 					},  {
 						"mData" : "peticiones"
 					} ]
-
 				});
+				$("ul.sf-menu").superfish(); 
+				$("#menu").load("menu.html");
 			});
 </script>
 <style>
@@ -65,22 +69,17 @@
 	padding-left: 7px;
 }
 </style>
-</head>
-<body><div style="width: 800px">
-<h1>Principal</h1>
-<p>
-<a href="jcategory_denied.html">Categor&iacute;as denegadas</a><br />
-<a href="jcategory_user_page.html">Categor&iacute;a, usuario p&aacute;ginas</a><br />
-<a href="jstatus.html">C&oacute;digos de estado</a><br />
-<a href="jsearchs.html">Frases m&aacute;s buscadas</a><br />
-<a href="jhosts.html">Hosts</a><br />
-<a href="jpages.html">P&aacute;ginas</a><br />
-<a href="jpage_user.html">P&aacute;ginas por usuario</a><br />
-<a href="jreferrer.html">Referrer</a><br />
-<a href="juser_trafic.html">Tr&aacute;fico por usuario</a><br />
-</div>
-	<div style="width: 800px">
+<!-- Menu -->
+<link rel="stylesheet" media="screen" href="js/superfish-1.4.8/css/superfish.css" /> 
+<script src="js/superfish-1.4.8/js/hoverIntent.js"></script> 
+<script src="js/superfish-1.4.8/js/superfish.js"></script> 
+<link rel="stylesheet" type="text/css"
+	href="css/styles.css" />
 
+</head>
+<body>
+<div id="menu"></div>
+	<div style="width: 800px">
 		<table cellpadding="0" cellspacing="0" border="0" class="display"
 			id="table_ppal">
 			<thead>

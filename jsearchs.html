@@ -34,7 +34,8 @@
 
 <script type="text/javascript" charset="utf-8">
 	$.ajaxSetup({
-		async : false
+		async : false,
+		cache: false
 	});
 	var url = "output/searchs.json";
 	var total = 0;
@@ -43,6 +44,8 @@
 	var itemsGraph = [];
 	$(document).ready(
 			function() {
+				$("ul.sf-menu").superfish(); 
+				$("#menu").load("menu.html");
 				$.getJSON(url, function(data) {
 					contenido = data.aaData;
 					$.each(data.aaData, function(i, item) {
@@ -101,17 +104,24 @@
 	padding-left: 7px;
 }
 </style>
+<!-- Menu -->
+<link rel="stylesheet" media="screen" href="js/superfish-1.4.8/css/superfish.css" /> 
+<script src="js/superfish-1.4.8/js/hoverIntent.js"></script> 
+<script src="js/superfish-1.4.8/js/superfish.js"></script> 
+<link rel="stylesheet" type="text/css"
+	href="css/styles.css" />
 </head>
 <body>
 
 
-	<div style="width: 800px"><a href="jindex.html">Volver</a>
+	<div style="width: 800px">
+<div id="menu"></div>
 <h1>Frases m&aacute;s buscadas</h1><br />
 		<table cellpadding="0" cellspacing="0" border="0" class="display"
 			id="table_ppal">
 			<thead>
 				<tr>
-					<th>Categor&iacute;a</th>
+					<th>Frase</th>
 					<th>Ocurrencias</th>
 					<th>Porcentaje</th>
 				</tr>

@@ -36,7 +36,8 @@
 
 <script type="text/javascript" charset="utf-8">
 	$.ajaxSetup({
-		async : false
+		async : false,
+		cache: false
 	});
 
 	var url = "output/pagina_usuario.json";
@@ -55,6 +56,8 @@
 
 	$(document).ready(
 			function() {
+				$("ul.sf-menu").superfish(); 
+				$("#menu").load("menu.html");
 
 				$.getJSON(url, function(data) {
 					contenido = data.aaData;
@@ -89,9 +92,15 @@
 	padding-left: 7px;
 }
 </style>
+<!-- Menu -->
+<link rel="stylesheet" media="screen" href="js/superfish-1.4.8/css/superfish.css" /> 
+<script src="js/superfish-1.4.8/js/hoverIntent.js"></script> 
+<script src="js/superfish-1.4.8/js/superfish.js"></script> 
+<link rel="stylesheet" type="text/css"
+	href="css/styles.css" />
 </head>
 <body>
-	<div style="width: 800px"><a href="jindex.html">Volver</a>
+	<div style="width: 800px"><div id="menu"></div>
 		<h1>P&aacute;ginas por usuario</h1>
 		<br />
 	</div>
