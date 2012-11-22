@@ -47,6 +47,7 @@
 			var aData = this.fnGetData(iRow);
 			var sValue = aData[iColumn];
 
+			
 			// ignore empty values?
 			if (bIgnoreEmpty == true && sValue.length == 0)
 				continue;
@@ -60,8 +61,8 @@
 			else
 				asResultData.push(sValue);
 		}
-
 		return asResultData;
+		
 	}
 }(jQuery));
 
@@ -78,10 +79,21 @@ function addTFoot(oTable){
 /* Add a select menu for each TH element in the table footer */
 	$("tfoot th").each(
 		function(i) {
-			if (this.innerHTML != ''){
+			if (this.innerHTML != '' && this.innerHTML.substr(0, 8) != '<select '){
 				var name = this.innerHTML;
 				this.innerHTML = fnCreateSelect(oTable
 						.fnGetColumnData(this.innerHTML), name);
+				this.setAttribute("id", name)
+				$('select', this).change(function() {
+					oTable.fnFilter($(this).val(), i);
+				});
+				$('select option', this).sort(NASort).appendTo(
+						$('select', this));
+				$('select', this).val('');
+			}else if (this.innerHTML.substr(0, 8) == '<select ' && this.getAttribute("id")){
+				var name = this.getAttribute("id");
+				this.innerHTML = fnCreateSelect(oTable
+						.fnGetColumnData(name), name);
 				$('select', this).change(function() {
 					oTable.fnFilter($(this).val(), i);
 				});
@@ -91,3 +103,13 @@ function addTFoot(oTable){
 			}
 		});
 }
+
+function NASort(a, b) {
+	if (a.innerHTML == '') {
+		return -1;
+	} else if (b.innerHTML == '') {
+		return 1;
+	}
+	return (a.innerHTML > b.innerHTML) ? 1 : -1;
+};
+

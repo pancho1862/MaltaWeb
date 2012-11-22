@@ -40,10 +40,15 @@
 <script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
 
 <script type="text/javascript" charset="utf-8">
-	$.ajaxSetup({
-		async : false,
-		cache: false
-	});
+$.ajaxSetup({
+	async : false,
+	cache: false
+});
+	var jsonName = 'categorias.json';
+	var total;
+	var otras;
+	var contenido;
+	var itemsGraph;
 	function loadData(url){
 		total = 0;
 		otras = 0;
@@ -88,10 +93,11 @@
 					"mData" : "porcentaje"
 				}],
 				"aaSorting": [[ 1, "desc" ]],
-			    "bDestroy": true,
 			    "oLanguage": {
 			        "sEmptyTable": "No se encontraron registros"
-			      }
+			      },
+				"bDestroy": true,
+			    "bAutoWidth": false
 	
 			});
 			var plot1 = jQuery.jqplot('chart1', [ itemsGraph ], {
@@ -117,24 +123,24 @@
 		if (currentDate = $("#datepicker").datepicker("getDate")){
 			var day = ('0' + currentDate.getDate()).substr(-2);
 			var month = ('0' + (currentDate.getMonth() + 1)).substr(-2);
-			loadData('output/' + currentDate.getFullYear() + '/' + month + '/' + day + '/categorias.json');
+			loadData('output/' + currentDate.getFullYear() + '/' + month + '/' + day + '/' + jsonName);
 		}
 	}
-	var total;
-	var otras;
-	var contenido;
-	var itemsGraph;
 	$(document).ready(
 			function() {
 				$("ul.sf-menu").superfish();
 				$("#menu").load("menu.html");
-				$("#datepicker" ).datepicker({ dateFormat: 'dd/mm/yy', 
+				$("#datepicker").datepicker({ dateFormat: 'dd/mm/yy', 
 					buttonText: "Seleccione", 
 					showOn: "both", maxDate: new Date(2050, 1, 1), 
 					minDate: new Date(2000, 1, 1), dayNamesMin: [ "Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa" ],
 					monthNames: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Set", "Oct", "Nov", "Dic"]
 				});		
 				loadData('output/categorias.json');
+				$("#limpiar").button().click(function (event){
+					$("#datepicker").datepicker( "setDate" , null );
+					loadData('output/categorias.json');
+				});
 			});
 </script>
 <style>

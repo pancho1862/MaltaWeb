@@ -32,48 +32,88 @@
 <link rel="stylesheet" type="text/css"
 	href="http://cdn.jsdelivr.net/jqplot/1.0.4/jquery.jqplot.css" />
 <script type="text/javascript" charset="utf8" src="js/gral.js"></script>
+<script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
 
 <script type="text/javascript" charset="utf-8">
 	$.ajaxSetup({
 		async : false,
 		cache: false
 	});
-	var url = "output/status.json";
-	var total = 0;
-	var otras = 0;
-	var contenido = Object;
-	var itemsGraph = [];
+	//var url = "output/status.json";
+	var total;
+	var otras;
+	var contenido;
+	var jsonName = 'status.json';
+	
+	function loadData(url){
+		total = 0;
+		otras = 0;
+		contenido = null;
+	
+		$.getJSON(url, function(data) {
+			if (data){
+				contenido = data.aaData;
+			}else{
+				contenido = null;
+			}
+		});
+		if (contenido){
+			var oTable = $('#table_ppal').dataTable({
+				"bJQueryUI" : true,
+				"bProcessing" : true,
+				"sPaginationType" : "full_numbers",
+				"aaData" : contenido,
+				"aoColumns" : [ {
+					"mData" : "categoria"
+				}, {
+					"mData" : "status"
+				}, {
+					"mData" : "ocurrencias"
+				}, {
+					"mData" : "descripcion"
+				} ],
+				"oLanguage" : {
+					"sSearch" : "Search all columns:"
+				},
+				"aaSorting": [[ 2, "desc" ]],
+			    "bDestroy": true,
+			    "bRetrieve": false,
+			    "bAutoWidth": false
+
+			});
+			addTFoot(oTable);
+		}else{
+			alert ('No se encontraron datos para la fecha seleccionada');
+		}
+	}
+
+	function selectDate(){
+		var currentDate;
+		if (currentDate = $("#datepicker").datepicker("getDate")){
+			var day = ('0' + currentDate.getDate()).substr(-2);
+			var month = ('0' + (currentDate.getMonth() + 1)).substr(-2);
+			loadData('output/' + currentDate.getFullYear() + '/' + month + '/' + day + '/' + jsonName);
+		}
+	}
+	
+		
 	$(document).ready(
 			function() {
 				$("ul.sf-menu").superfish(); 
 				$("#menu").load("menu.html");
-				$.getJSON(url, function(data) {
-					contenido = data.aaData;
-				});
-				if (otras > 5){
-					itemsGraph.push([ 'Otras', otras ]);
-				}
-				var oTable = $('#table_ppal').dataTable({
-					"bJQueryUI" : true,
-					"bProcessing" : true,
-					"sPaginationType" : "full_numbers",
-					"aaData" : contenido,
-					"aoColumns" : [ {
-						"mData" : "categoria"
-					}, {
-						"mData" : "status"
-					}, {
-						"mData" : "ocurrencias"
-					}, {
-						"mData" : "descripcion"
-					} ],
-					"oLanguage" : {
-						"sSearch" : "Search all columns:"
-					},
-					"aaSorting": [[ 2, "desc" ]]
 
+				$("#datepicker").datepicker({ dateFormat: 'dd/mm/yy', 
+					buttonText: "Seleccione", 
+					showOn: "both", maxDate: new Date(2050, 1, 1), 
+					minDate: new Date(2000, 1, 1), dayNamesMin: [ "Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa" ],
+					monthNames: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Set", "Oct", "Nov", "Dic"]
+				});		
+				loadData('output/status.json');
+				$("#limpiar").button().click(function (event){
+					$("#datepicker").datepicker( "setDate" , null );
+					loadData('output/status.json');
 				});
-				addTFoot(oTable);
+				
 			});
 </script>
 <style>
