@@ -38,7 +38,7 @@
 <script type="text/javascript" charset="utf-8">
 	$.ajaxSetup({
 		async : false,
-		cache: false
+		cache : false
 	});
 
 	//var url = "output/categoria_usuario_pagina.json";
@@ -46,18 +46,18 @@
 	var total;
 	var contenido;
 
-	function loadData(url){
+	function loadData(url) {
 		total = 0;
 		otras = 0;
 		contenido = null;
 		$.getJSON(url, function(data) {
-			if (data){
+			if (data) {
 				contenido = data.aaData;
-			}else{
+			} else {
 				contenido = null;
 			}
 		});
-		if (contenido){
+		if (contenido) {
 			var oTable = $('#table_ppal').dataTable({
 				"bJQueryUI" : true,
 				"bProcessing" : true,
@@ -75,47 +75,57 @@
 				"oLanguage" : {
 					"sSearch" : "Search all columns:"
 				},
-				"aaSorting": [[ 3, "desc" ]],
-			    "bDestroy": true,
-			    "bRetrieve": false,
-			    "bAutoWidth": false
+				"aaSorting" : [ [ 3, "desc" ] ],
+				"bDestroy" : true,
+				"bRetrieve" : false,
+				"bAutoWidth" : false,
+				"aoColumnDefs" : [ {
+					"sClass" : "right",
+					"aTargets" : [ 3 ]
+				} ]
 			});
 
 			addTFoot(oTable);
-		}else{
-			alert ('No se encontraron datos para la fecha seleccionada');
+		} else {
+			alert('No se encontraron datos para la fecha seleccionada');
 		}
 	}
-	
 
-	function selectDate(){
+	function selectDate() {
 		var currentDate;
-		if (currentDate = $("#datepicker").datepicker("getDate")){
+		if (currentDate = $("#datepicker").datepicker("getDate")) {
 			var day = ('0' + currentDate.getDate()).substr(-2);
 			var month = ('0' + (currentDate.getMonth() + 1)).substr(-2);
-			loadData('output/' + currentDate.getFullYear() + '/' + month + '/' + day + '/' + jsonName);
+			loadData('output/' + currentDate.getFullYear() + '/' + month + '/'
+					+ day + '/' + jsonName);
 		}
 	}
-	
-	
+
 	$(document).ready(
 			function() {
 
-				$("ul.sf-menu").superfish(); 
+				$("ul.sf-menu").superfish();
 				$("#menu").load("menu.html");
-				
-				$("#datepicker").datepicker({ dateFormat: 'dd/mm/yy', 
-					buttonText: "Seleccione", 
-					showOn: "both", maxDate: new Date(2050, 1, 1), 
-					minDate: new Date(2000, 1, 1), dayNamesMin: [ "Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa" ],
-					monthNames: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Set", "Oct", "Nov", "Dic"]
-				});		
+
+				$("#datepicker").datepicker(
+						{
+							dateFormat : 'dd/mm/yy',
+							buttonText : "Seleccione",
+							showOn : "both",
+							maxDate : new Date(2050, 1, 1),
+							minDate : new Date(2000, 1, 1),
+							dayNamesMin : [ "Do", "Lu", "Ma", "Mi", "Ju", "Vi",
+									"Sa" ],
+							monthNames : [ "Ene", "Feb", "Mar", "Abr", "May",
+									"Jun", "Jul", "Ago", "Set", "Oct", "Nov",
+									"Dic" ]
+						});
 				loadData('output/categoria_usuario_pagina.json');
-				$("#limpiar").button().click(function (event){
-					$("#datepicker").datepicker( "setDate" , null );
+				$("#limpiar").button().click(function(event) {
+					$("#datepicker").datepicker("setDate", null);
 					loadData('output/categoria_usuario_pagina.json');
 				});
-				
+
 			});
 </script>
 <style>
@@ -125,15 +135,15 @@
 }
 </style>
 <!-- Menu -->
-<link rel="stylesheet" media="screen" href="js/superfish-1.4.8/css/superfish.css" /> 
-<script src="js/superfish-1.4.8/js/hoverIntent.js"></script> 
-<script src="js/superfish-1.4.8/js/superfish.js"></script> 
-<link rel="stylesheet" type="text/css"
-	href="css/styles.css" />
+<link rel="stylesheet" media="screen"
+	href="js/superfish-1.4.8/css/superfish.css" />
+<script src="js/superfish-1.4.8/js/hoverIntent.js"></script>
+<script src="js/superfish-1.4.8/js/superfish.js"></script>
+<link rel="stylesheet" type="text/css" href="css/styles.css" />
 </head>
 <body>
 	<div style="width: 800px">
-<div id="menu"></div>
+		<div id="menu"></div>
 		<h1>Categor&iacute;a, usuario p&aacute;ginas</h1>
 		<br />
 	</div>

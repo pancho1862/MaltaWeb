@@ -3,7 +3,16 @@ body{
   background-color: #d0e3f1;
   font-family: Arial,sans-serif;
   font-size: small;
+  padding: 3px;
+  margin: 5px;
 }
 h1 {
 	color: #1111ff;
+}
+
+
+
+.right{
+	text-align: right;
+	margin-right: 3px;
 }
