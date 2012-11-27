@@ -117,10 +117,6 @@ function NASort(a, b) {
 	return (a.innerHTML > b.innerHTML) ? 1 : -1;
 };
 
-
-
-
-
 $.urlParam = function(key){
 	var result = new RegExp(key + "=([^&]*)", "i").exec(window.location.search);
 	return decodeURIComponent(result && result[1] || ""); 

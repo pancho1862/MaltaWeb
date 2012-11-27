@@ -79,13 +79,7 @@
 				$.urlParam('sort'));
 		}
 	}
-	var elipsis = function(data, num)
-	{
-	    if(data.length > num) {
-	        return data.substring(0, num) + '...';
-	    }
-	    return data;
-	}
+
 	$(document).ready(
 			function() {
 				var qryFilters = $.urlParam('filters');
@@ -102,8 +96,10 @@
 						mData : cols[i],
 						mRender : function(data, type, full)
 						{
-						    if(data.length > 50) {
-						        return data.substring(0, 50) + '<a href="#" title="' + data + '">...</a>';
+							if (data){
+							    if(data.length > 50) {
+							        return data.substring(0, 50) + '<a href="#" title="' + data + '">...</a>';
+							    }
 						    }
 						    return data;
 						}
