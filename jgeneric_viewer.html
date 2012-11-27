@@ -79,7 +79,13 @@
 				$.urlParam('sort'));
 		}
 	}
-		
+	var elipsis = function(data, num)
+	{
+	    if(data.length > num) {
+	        return data.substring(0, num) + '...';
+	    }
+	    return data;
+	}
 	$(document).ready(
 			function() {
 				var qryFilters = $.urlParam('filters');
@@ -92,7 +98,16 @@
 				//agrego las columnas
 				var cols = $.urlParam('columns').split(',');
 				for (var i in cols){
-					aoColumns.push({ mData : cols[i] });
+					aoColumns.push({ 
+						mData : cols[i],
+						mRender : function(data, type, full)
+						{
+						    if(data.length > 50) {
+						        return data.substring(0, 50) + '<a href="#" title="' + data + '">...</a>';
+						    }
+						    return data;
+						}
+					});
 				}
 				//agrego los filtros
 				if (qryFilters != ''){
