@@ -121,3 +121,20 @@ $.urlParam = function(key){
 	var result = new RegExp(key + "=([^&]*)", "i").exec(window.location.search);
 	return decodeURIComponent(result && result[1] || ""); 
 }
+
+
+function miRender(data, type, full)
+{
+	if ( type == 'display' ) {
+		if (data){
+		    if(data.length > 50) {
+		        return data.substring(0, 50) + '<a href="#" title="' + data + '">...</a>';
+		    }
+	    }
+	}
+    return data;
+}
+
+$(window).load(function(){
+	  $('#dvLoading').fadeOut(2000);
+	});

@@ -79,17 +79,6 @@
 				$.urlParam('sort'));
 		}
 	}
-	function miRender(data, type, full)
-	{
-		if ( type == 'display' ) {
-			if (data){
-			    if(data.length > 50) {
-			        return data.substring(0, 50) + '<a href="#" title="' + data + '">...</a>';
-			    }
-		    }
-		}
-	    return data;
-	}
 
 	$(document).ready(
 			function() {
