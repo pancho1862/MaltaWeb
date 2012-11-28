@@ -67,15 +67,15 @@
 }(jQuery));
 
 function fnCreateSelect(aData, name) {
-	var r = '<select id="sel_' + name + '"><option value=""></option>', i, iLen = aData.length;
-	for (i = 0; i < iLen; i++) {
+	var r = '<select id="sel_' + name + '"><option value=""></option>';
+	for (var i = 0; i < aData.length; i++) {
 		if(aData[i].length > 50) {
-			r += '<option value="' + aData[i] + '" title="' + aData[i] + '">' + aData[i].substring(0, 50) + '...</option>';
+			r = r + '<option value="' + aData[i] + '" title="' + aData[i] + '">' + aData[i].substring(0, 50) + '...</option>';
 		}else{
-			r += '<option value="' + aData[i] + '">' + aData[i] + '</option>';
+			r = r + '<option value="' + aData[i] + '">' + aData[i] + '</option>';
 		}
 	}
-	r += '</select>';
+	r = r + '</select>';
 	return r;
 }
 
