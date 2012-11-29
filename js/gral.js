@@ -148,8 +148,8 @@ function ini(){
 	$("ul.sf-menu").superfish(); 
 	$("#menu").load("menu.html");
 	if ($("#datepicker")){
-		$("#datepicker").datepicker({ dateFormat: 'dd/mm/yy', 
-			 
+		$("#datepicker").datepicker({ 
+			dateFormat: 'dd/mm/yy', 
 			maxDate: new Date(2050, 1, 1), 
 			minDate: new Date(2000, 1, 1), 
 			dayNamesMin: [ "Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa" ],

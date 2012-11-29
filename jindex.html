@@ -33,13 +33,14 @@
 	href="http://cdn.jsdelivr.net/jqplot/1.0.4/jquery.jqplot.css" />
 <link rel="stylesheet" type="text/css"
 	href="css/styles.css" />
-
+<script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
+<script src="js/gral.js"></script>
 <script type="text/javascript" charset="utf-8">
 	$.ajaxSetup({
 		async : false,
 		cache: false
 	});
-	var url = "output/global.json";
+	var url = outputDir + "datatables/global.json";
 	var total = 0;
 	var contenido = Object;
 	var itemsGraph = [];
@@ -59,9 +60,8 @@
 						"mData" : "peticiones"
 					} ]
 				});
-				$("ul.sf-menu").superfish(); 
-				$("#menu").load("menu.html");
-				
+				ini();
+				$("#labelMostrar").css("visibility", "hidden");
 				$("#divFecha").css("visibility", "hidden");
 				$("#divLimpiarFecha").css("visibility", "hidden");
 			});
