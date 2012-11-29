@@ -31,81 +31,99 @@
 <script type="text/javascript" charset="utf-8">
 	$.ajaxSetup({
 		async : false,
-		cache: false
+		cache : false
 	});
+
 	
+	function clearDate(){
+							$("#datepicker").datepicker("setDate", null);
+							loadData(outputDir + 'datatables/' + jsonName
+									+ '.json', aoColumns, sort);
+							$('#mostrando').text('Total');
+							}
+	function selectDate() {
+		$('#dvLoading').fadeIn(3);
+		var currentDate;
+		if (currentDate = $("#datepicker").datepicker("getDate")) {
+			var day = ('0' + currentDate.getDate()).substr(-2);
+			var month = ('0' + (currentDate.getMonth() + 1)).substr(-2);
+			var year = currentDate.getFullYear();
+			if (loadData(outputDir + 'datatables/' + year + '/' + month + '/'
+					+ day + '/' + jsonName + '.json', aoColumns, sort )){
+				$('#mostrando').text(day + '/' + month + '/' + year);
+			}else{
+				clearDate();
+			}
+		}
+		$('#dvLoading').fadeOut(2000);
+	}
 	var total;
 	var contenido;
 	var aoColumns = [];
-	
-	function loadData(url, columns, sort, filters){
+	var jsonName = '';
+	var sort = 0;
+	function loadData(url, columns, sort, filters) {
 		total = 0;
 		otras = 0;
 		itemsGraph = [];
 		contenido = null;
 		$.getJSON(url, function(data) {
-			if (data){
+			if (data) {
 				contenido = data.aaData;
-			}else{
+			} else {
 				contenido = null;
 			}
 		});
-		if (contenido){
+		if (contenido) {
 			var oTable = $('#table_ppal').dataTable({
 				"bJQueryUI" : true,
 				"bProcessing" : true,
 				"sPaginationType" : "full_numbers",
 				"aaData" : contenido,
 				"aoColumns" : columns,
-				"aaSorting": [[ sort, "desc" ]],
-				"bDestroy": true,
-			    "bAutoWidth": false
+				"aaSorting" : [ [ sort, "desc" ] ],
+				"bDestroy" : true,
+				"bAutoWidth" : false
 
 			});
 			addTFoot(oTable);
-		}else{
-			alert ('No se encontraron datos para la fecha seleccionada');
-		}
-	}
-
-	function selectDate(){
-		var currentDate;
-		if (currentDate = $("#datepicker").datepicker("getDate")){
-			var day = ('0' + currentDate.getDate()).substr(-2);
-			var month = ('0' + (currentDate.getMonth() + 1)).substr(-2);
-			loadData(
-				'output/' + currentDate.getFullYear() + '/' + month + '/' + day + '/' +  $.urlParam('report') + '.json',
-				aoColumns, 
-				$.urlParam('sort'));
+			return true;
+		} else {
+			alert('No se encontraron datos para la fecha seleccionada');
+			return false;
 		}
 	}
 
 	$(document).ready(
 			function() {
+				ini();
 				var qryFilters = $.urlParam('filters');
 				var columnNames = $.urlParam('column_names').split(',');
-				
+				jsonName = $.urlParam('report');
+				sort = $.urlParam('sort');
 				//agrego los titulos
-				for (var columnName in columnNames){
-					$("#trHead").append('<th>' + columnNames[columnName] + '</th>');
+				for ( var columnName in columnNames) {
+					$("#trHead").append(
+							'<th>' + columnNames[columnName] + '</th>');
 				}
 				//agrego las columnas
 				var cols = $.urlParam('columns').split(',');
-				for (var i in cols){
-					if (i){
-						aoColumns.push({ 
+				for ( var i in cols) {
+					if (i) {
+						aoColumns.push({
 							mData : cols[i],
 							mRender : miRender
 						});
 					}
 				}
 				//agrego los filtros
-				if (qryFilters != ''){
+				if (qryFilters != '') {
 					var filters = qryFilters.split(',');
-					$("#table_ppal").append('<tfoot><tr id="trFoot"></tr></tfoot>');
-					for (var pos in cols){
+					$("#table_ppal").append(
+							'<tfoot><tr id="trFoot"></tr></tfoot>');
+					for ( var pos in cols) {
 						var strFoot = '<th>';
-						if (filters.indexOf(cols[pos]) >= 0){
+						if (filters.indexOf(cols[pos]) >= 0) {
 							strFoot = strFoot + cols[pos];
 						}
 						strFoot = strFoot + '</th>';
@@ -114,27 +132,12 @@
 				}
 				$("#pageTitle").text($.urlParam('name'));
 				$("title").text('MaltaWeb - ' + $.urlParam('name'));
-				
-				$("ul.sf-menu").superfish(); 
-				$("#menu").load("menu.html");
-				
-				$("#datepicker").datepicker({ dateFormat: 'dd/mm/yy', 
-					buttonText: "Seleccione", 
-					showOn: "both", maxDate: new Date(2050, 1, 1), 
-					minDate: new Date(2000, 1, 1), dayNamesMin: [ "Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa" ],
-					monthNames: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Set", "Oct", "Nov", "Dic"]
-				});
-				loadData(
-					'output/' + $.urlParam('report') + '.json',
-					aoColumns,
-					$.urlParam('sort'));
-				$("#limpiar").button().click(function (event){
-					$("#datepicker").datepicker( "setDate" , null );
-					loadData(
-						'output/' + $.urlParam('report') + '.json',
-						aoColumns,
-						$.urlParam('sort'));
-				});
+				loadData(outputDir + 'datatables/' + jsonName + '.json',
+						aoColumns, sort);
+				$("#limpiar").button().click(
+						function(event) {
+							clearDate();
+						});
 			});
 </script>
 <style>

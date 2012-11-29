@@ -1,3 +1,5 @@
+var outputDir = 'output/';
+
 (function($) {
 	/*
 	 * Function: fnGetColumnData Purpose: Return an array of table values from a
@@ -47,7 +49,6 @@
 			var aData = this.fnGetData(iRow);
 			var sValue = aData[iColumn];
 
-			
 			// ignore empty values?
 			if (bIgnoreEmpty == true && sValue.length == 0)
 				continue;
@@ -62,50 +63,54 @@
 				asResultData.push(sValue);
 		}
 		return asResultData;
-		
+
 	}
 }(jQuery));
 
 function fnCreateSelect(aData, name) {
 	var r = '<select id="sel_' + name + '"><option value=""></option>';
-	for (var i = 0; i < aData.length; i++) {
-		if(aData[i].length > 50) {
-			r = r + '<option value="' + aData[i] + '" title="' + aData[i] + '">' + aData[i].substring(0, 50) + '...</option>';
-		}else{
-			r = r + '<option value="' + aData[i] + '">' + aData[i] + '</option>';
+	for ( var i = 0; i < aData.length; i++) {
+		if (aData[i].length > 50) {
+			r = r + '<option value="' + aData[i] + '" title="' + aData[i]
+					+ '">' + aData[i].substring(0, 50) + '...</option>';
+		} else {
+			r = r + '<option value="' + aData[i] + '">' + aData[i]
+					+ '</option>';
 		}
 	}
 	r = r + '</select>';
 	return r;
 }
 
-function addTFoot(oTable){
-/* Add a select menu for each TH element in the table footer */
+function addTFoot(oTable) {
+	/* Add a select menu for each TH element in the table footer */
 	$("tfoot th").each(
-		function(i) {
-			if (this.innerHTML != '' && this.innerHTML.substr(0, 8) != '<select '){
-				var name = this.innerHTML;
-				this.innerHTML = fnCreateSelect(oTable
-						.fnGetColumnData(this.innerHTML), name);
-				this.setAttribute("id", name)
-				$('select', this).change(function() {
-					oTable.fnFilter($(this).val(), i);
-				});
-				$('select option', this).sort(NASort).appendTo(
-						$('select', this));
-				$('select', this).val('');
-			}else if (this.innerHTML.substr(0, 8) == '<select ' && this.getAttribute("id")){
-				var name = this.getAttribute("id");
-				this.innerHTML = fnCreateSelect(oTable
-						.fnGetColumnData(name), name);
-				$('select', this).change(function() {
-					oTable.fnFilter($(this).val(), i);
-				});
-				$('select option', this).sort(NASort).appendTo(
-						$('select', this));
-				$('select', this).val('');
-			}
-		});
+			function(i) {
+				if (this.innerHTML != ''
+						&& this.innerHTML.substr(0, 8) != '<select ') {
+					var name = this.innerHTML;
+					this.innerHTML = fnCreateSelect(oTable
+							.fnGetColumnData(this.innerHTML), name);
+					this.setAttribute("id", name)
+					$('select', this).change(function() {
+						oTable.fnFilter($(this).val(), i);
+					});
+					$('select option', this).sort(NASort).appendTo(
+							$('select', this));
+					$('select', this).val('');
+				} else if (this.innerHTML.substr(0, 8) == '<select '
+						&& this.getAttribute("id")) {
+					var name = this.getAttribute("id");
+					this.innerHTML = fnCreateSelect(oTable
+							.fnGetColumnData(name), name);
+					$('select', this).change(function() {
+						oTable.fnFilter($(this).val(), i);
+					});
+					$('select option', this).sort(NASort).appendTo(
+							$('select', this));
+					$('select', this).val('');
+				}
+			});
 }
 
 function NASort(a, b) {
@@ -117,24 +122,50 @@ function NASort(a, b) {
 	return (a.innerHTML > b.innerHTML) ? 1 : -1;
 };
 
-$.urlParam = function(key){
+$.urlParam = function(key) {
 	var result = new RegExp(key + "=([^&]*)", "i").exec(window.location.search);
-	return decodeURIComponent(result && result[1] || ""); 
+	return decodeURIComponent(result && result[1] || "");
 }
 
-
-function miRender(data, type, full)
-{
-	if ( type == 'display' ) {
-		if (data){
-		    if(data.length > 50) {
-		        return data.substring(0, 50) + '<a href="#" title="' + data + '">...</a>';
-		    }
-	    }
+function miRender(data, type, full) {
+	if (type == 'display') {
+		if (data) {
+			if (data.length > 50) {
+				return data.substring(0, 50) + '<a href="#" title="' + data
+						+ '">...</a>';
+			}
+		}
 	}
-    return data;
+	return data;
 }
 
-$(window).load(function(){
-	  $('#dvLoading').fadeOut(2000);
+$(window).load(function() {
+	$('#dvLoading').fadeOut(2000);
+});
+
+
+function ini(){
+	$("ul.sf-menu").superfish(); 
+	$("#menu").load("menu.html");
+	if ($("#datepicker")){
+		$("#datepicker").datepicker({ dateFormat: 'dd/mm/yy', 
+			 
+			maxDate: new Date(2050, 1, 1), 
+			minDate: new Date(2000, 1, 1), 
+			dayNamesMin: [ "Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa" ],
+			monthNames: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Set", "Oct", "Nov", "Dic"],
+			changeMonth: true,
+			changeYear: true
+		});
+	}
+	$.ajax({
+		url : outputDir + 'version',
+		dataType : "text",
+		success : function (data){
+			$('#versionServer').text(data);
+		},
+		error : function (data){
+			alert ('Error: No puedo leer archivo de versión');
+		}
 	});
+}
