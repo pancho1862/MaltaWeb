@@ -165,7 +165,7 @@ function ini(){
 			$('#versionServer').text(data);
 		},
 		error : function (data){
-			alert ('Error: No puedo leer archivo de versión');
+			alert ('Error: No puedo leer archivo de version');
 		}
 	});
 }
